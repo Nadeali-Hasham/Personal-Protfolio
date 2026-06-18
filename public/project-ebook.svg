@@ -1,0 +1,12 @@
+<svg width="1200" height="750" viewBox="0 0 1200 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="750" fill="#fff7ed"/>
+  <rect x="110" y="100" width="980" height="550" rx="34" fill="#111827"/>
+  <rect x="190" y="170" width="210" height="330" rx="20" fill="#b7791f"/>
+  <rect x="430" y="140" width="250" height="390" rx="22" fill="#14b8a6"/>
+  <rect x="710" y="190" width="210" height="310" rx="20" fill="#2563eb"/>
+  <rect x="230" y="230" width="130" height="18" rx="9" fill="#fff7ed" fill-opacity="0.85"/>
+  <rect x="470" y="215" width="165" height="20" rx="10" fill="#ecfeff" fill-opacity="0.8"/>
+  <rect x="755" y="265" width="120" height="18" rx="9" fill="#dbeafe" fill-opacity="0.8"/>
+  <rect x="225" y="560" width="735" height="34" rx="17" fill="#ffffff" fill-opacity="0.16"/>
+  <text x="190" y="620" fill="#ffffff" font-family="Arial" font-size="38" font-weight="700">EBookStore MVC Inventory System</text>
+</svg>

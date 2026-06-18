@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #111827;
+}
+
+.dark body {
+  background: #111827;
+  color: #f8fafc;
+}
+
+::selection {
+  background: #14b8a6;
+  color: #111827;
+}
+
+.form-field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(15 23 42 / 0.12);
+  background: rgb(255 255 255 / 0.94);
+  padding: 0.8rem 0.95rem;
+  color: #111827;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.form-field:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgb(37 99 235 / 0.14);
+}
+
+.dark .form-field {
+  border-color: rgb(255 255 255 / 0.12);
+  background: rgb(255 255 255 / 0.08);
+  color: #f8fafc;
+}
+
+.dark .form-field:focus {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 4px rgb(20 184 166 / 0.16);
+}

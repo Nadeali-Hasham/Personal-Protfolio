@@ -1,0 +1,47 @@
+<m-group id="portfolio-world" y="1" z="-6">
+  <m-light type="point" x="-3" y="4" z="2" color="#14b8a6" intensity="7"></m-light>
+  <m-light type="point" x="4" y="2" z="-2" color="#2563eb" intensity="5"></m-light>
+
+  <m-label
+    id="logo"
+    content="NAH"
+    y="1.8"
+    width="3.4"
+    height="1"
+    font-size="42"
+    alignment="center"
+    color="#0f172a"
+    font-color="#f8fafc"
+    emissive="0.45"
+  >
+    <m-attr-anim attr="ry" start="-12" end="12" duration="3200" loop="true" ping-pong="true" easing="easeInOutSine"></m-attr-anim>
+  </m-label>
+
+  <m-group id="orbit">
+    <m-cube id="api" x="-1.9" y="0.5" width="0.45" height="0.45" depth="0.45" color="#14b8a6" onclick="this.setAttribute('color', '#b7791f')">
+      <m-attr-anim attr="ry" start="0" end="360" duration="4200" loop="true"></m-attr-anim>
+      <m-attr-lerp attr="x,y,z" duration="500" easing="easeInOutQuad"></m-attr-lerp>
+    </m-cube>
+    <m-sphere id="sql" x="1.7" y="0.2" radius="0.33" color="#2563eb" onclick="this.setAttribute('y', '0.9')">
+      <m-attr-anim attr="rx" start="0" end="360" duration="5200" loop="true"></m-attr-anim>
+      <m-attr-lerp attr="x,y,z" duration="500" easing="easeInOutQuad"></m-attr-lerp>
+    </m-sphere>
+    <m-cylinder id="ui" y="-0.65" radius="0.34" height="0.18" color="#b7791f">
+      <m-attr-anim attr="rz" start="0" end="360" duration="3600" loop="true"></m-attr-anim>
+    </m-cylinder>
+    <m-attr-anim attr="ry" start="0" end="360" duration="14000" loop="true"></m-attr-anim>
+  </m-group>
+
+  <m-plane width="6" height="3.4" z="-0.4" color="#111827" opacity="0.34"></m-plane>
+  <m-position-probe id="visitor-probe" range="12" interval="350"></m-position-probe>
+
+  <script>
+    const orbit = document.getElementById("orbit");
+    const probe = document.getElementById("visitor-probe");
+    probe.addEventListener("positionmove", (event) => {
+      const p = event.detail.position || { x: 0, y: 0 };
+      orbit.setAttribute("x", String(Math.max(-0.4, Math.min(0.4, p.x * 0.03))));
+      orbit.setAttribute("y", String(Math.max(-0.25, Math.min(0.25, p.y * 0.02))));
+    });
+  </script>
+</m-group>
