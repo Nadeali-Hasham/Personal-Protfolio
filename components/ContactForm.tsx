@@ -24,22 +24,20 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       });
       const data = (await response.json()) as { message?: string };
 
-      if (!response.ok) {
+      if (!response.ok && response.status !== 202) {
         throw new Error(data.message ?? "Message could not be sent.");
       }
 
       setStatus("sent");
       setMessage(data.message ?? "Message sent successfully.");
-      form.reset();
+      if (response.ok) form.reset();
     } catch (error) {
       setStatus("error");
-      setMessage(
-        error instanceof Error ? error.message : "Something went wrong.",
-      );
+      setMessage(error instanceof Error ? error.message : "Something went wrong.");
     }
   }
 
@@ -55,12 +53,19 @@ export function ContactForm() {
           : "perspective(800px) rotateX(0) rotateY(0) scale(1)",
         boxShadow: isHovered
           ? "0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(20,184,166,0.2)"
-          : "0 10px 30px rgba(0,0,0,0.08)",
+          : "0 10px 30px rgba(0,0,0,0.08)"
       }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      {/* 3D Floating glow behind form */}
-      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-teal-400/20 via-blue-500/20 to-amber-500/20 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Honeypot — hidden from real users */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         {["Name", "Email"].map((label, idx) => (
@@ -124,7 +129,6 @@ export function ContactForm() {
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.96 }}
       >
-        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         <Send size={17} />
         {status === "sending" ? "Sending..." : "Send Message"}
       </motion.button>

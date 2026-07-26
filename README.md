@@ -11,28 +11,45 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Email Setup
+## Contact Email Setup
 
-Copy `.env.example` to `.env.local` and fill SMTP values:
+Copy `.env.example` to `.env.local` and set at least:
 
 ```bash
 CONTACT_TO_EMAIL=syednadealihashamshah@gmail.com
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USER=your-user
-SMTP_PASS=your-password
-SMTP_FROM="Nade Portfolio <no-reply@example.com>"
 ```
 
-Without SMTP values, the API validates and rate-limits submissions but returns a setup error instead of sending email.
+Sending order:
+
+1. **SMTP** (if `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` are set) — best for production
+2. **Web3Forms** (if `WEB3FORMS_ACCESS_KEY` is set)
+3. **FormSubmit.co** fallback — works with only `CONTACT_TO_EMAIL`
+
+### First-time FormSubmit note
+
+The first contact submission may send an activation email to your inbox. Confirm it once, then future messages arrive normally.
+
+### Gmail SMTP (optional, more reliable)
+
+1. Enable 2FA on Gmail
+2. Create an [App Password](https://myaccount.google.com/apppasswords)
+3. Set in `.env.local`:
+
+```bash
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=syednadealihashamshah@gmail.com
+SMTP_PASS=your-16-char-app-password
+SMTP_FROM="Nade Portfolio <syednadealihashamshah@gmail.com>"
+```
 
 ## Vercel Deployment
 
-1. Push the project to a repository after approval.
-2. Import the repo in Vercel.
-3. Add the environment variables from `.env.example`.
-4. Deploy.
+1. Push the project to a repository
+2. Import the repo in Vercel
+3. Add the environment variables from `.env.example`
+4. Deploy
 
 ## Notes
 
-The 3D scenes use React Three Fiber because it is production-friendly inside Next.js and was allowed as an alternative to MML. ClawNet was not installed because external package/plugin installation needs approval.
+The 3D scenes use React Three Fiber because it is production-friendly inside Next.js.

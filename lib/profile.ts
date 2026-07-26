@@ -139,4 +139,4 @@ export const testimonials = [
   }
 ];
 
-export const filters = ["All", "React.js", "ASP.NET Core", "SQL Server", "Next.js", "E-Commerce"];
+export const filters = ["All", "React.js", "ASP.NET Core", "SQL Server", "E-Commerce", "Dashboard", "MVC"];

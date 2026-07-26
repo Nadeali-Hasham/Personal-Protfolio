@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 
 export function ProjectGrid() {
   const [active, setActive] = useState("All");
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const visible = useMemo(() => {
     if (active === "All") return projects;
@@ -62,8 +61,6 @@ export function ProjectGrid() {
               stiffness: 300,
               damping: 20,
             }}
-            onHoverStart={() => setHoveredIndex(index)}
-            onHoverEnd={() => setHoveredIndex(null)}
             className="group relative overflow-hidden rounded-xl border border-black/10 bg-white/90 shadow-sm backdrop-blur [transform-style:preserve-3d] transition-all duration-500 dark:border-white/10 dark:bg-white/10"
           >
             {/* 3D Glow Border */}
@@ -78,13 +75,9 @@ export function ProjectGrid() {
                 sizes="(min-width: 1024px) 33vw, 100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent opacity-80" />
-
-              <motion.div
-                className="absolute right-4 top-4 rounded-full border border-white/30 bg-white/20 px-3 py-1 text-xs font-bold text-white backdrop-blur"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-              >
-                🎯 3D Card
-              </motion.div>
+              <div className="absolute left-4 top-4 rounded-full border border-white/30 bg-white/20 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+                {project.category}
+              </div>
             </div>
 
             <div className="relative z-10 p-6">

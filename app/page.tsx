@@ -60,7 +60,7 @@ export default function Home() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
                 <Image
                   src={profile.profileImage}
-                  alt="Nade Ali Hasham profile placeholder"
+                  alt="Nade Ali Hasham"
                   fill
                   priority
                   className="object-cover transition duration-700 group-hover:scale-105"
@@ -68,8 +68,8 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/72 via-transparent to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5">
-                  <p className="text-sm font-bold uppercase tracking-[0.22em] text-mint">Portfolio Avatar</p>
-                  <p className="mt-2 text-2xl font-black text-white">Full-stack systems with depth</p>
+                  <p className="text-sm font-bold uppercase tracking-[0.22em] text-mint">{profile.title}</p>
+                  <p className="mt-2 text-2xl font-black text-white">{profile.location}</p>
                 </div>
               </div>
             </div>
