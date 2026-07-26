@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Nade Ali Hasham | Full-Stack Developer",
+  title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
   description:
     "Portfolio of Nade Ali Hasham, a Full-Stack Developer in Lahore specializing in ASP.NET Core, React.js, Next.js, TypeScript, and SQL Server.",
   keywords: [
@@ -17,18 +17,39 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
     "SQL Server",
-    "Lahore Developer"
+    "Lahore Developer",
+    "Portfolio"
   ],
   authors: [{ name: "Nade Ali Hasham" }],
   creator: "Nade Ali Hasham",
+  metadataBase: new URL("https://nade-portfolio.vercel.app"),
   openGraph: {
-    title: "Nade Ali Hasham | Full-Stack Developer",
+    title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
     description:
       "Modern full-stack portfolio showcasing ASP.NET Core, React, Next.js, TypeScript, SQL Server, and production web projects.",
     url: "https://nade-portfolio.vercel.app",
     siteName: "Nade Ali Hasham Portfolio",
+    images: [
+      {
+        url: "/images/nade-ali-hasham.jpg",
+        width: 720,
+        height: 900,
+        alt: "Nade Ali Hasham"
+      }
+    ],
     locale: "en_PK",
     type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
+    description:
+      "Full-stack developer portfolio focused on ASP.NET Core, React, Next.js, TypeScript, and SQL Server.",
+    images: ["/images/nade-ali-hasham.jpg"]
+  },
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }]
   }
 };
 
@@ -38,7 +59,9 @@ export const viewport: Viewport = {
   themeColor: "#111827"
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>

@@ -8,29 +8,19 @@ export function TypingName({ text }: { text: string }) {
 
   useEffect(() => {
     if (count >= text.length) return;
-    const timer = window.setTimeout(() => setCount((value) => value + 1), 58);
+    const timer = window.setTimeout(() => setCount((value) => value + 1), 42);
     return () => window.clearTimeout(timer);
   }, [count, text.length]);
 
   return (
     <motion.span
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.45 }}
+      className="bg-gradient-to-r from-ink via-signal to-mint bg-clip-text text-transparent dark:from-white dark:via-mint dark:to-signal"
     >
       {text.slice(0, count)}
-      <motion.span
-        className="ml-1 inline-block h-[0.9em] w-[3px] translate-y-1 bg-mint"
-        animate={{
-          opacity: [1, 0, 1],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 0.8,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      />
+      <span className="ml-1 inline-block h-[0.85em] w-[3px] translate-y-1 animate-pulse bg-mint align-middle" />
     </motion.span>
   );
 }

@@ -13,12 +13,12 @@
 
 body {
   min-height: 100vh;
-  background: #f8fafc;
+  background: transparent;
   color: #111827;
 }
 
 .dark body {
-  background: #111827;
+  background: transparent;
   color: #f8fafc;
 }
 
@@ -53,3 +53,45 @@ body {
   border-color: #14b8a6;
   box-shadow: 0 0 0 4px rgb(20 184 166 / 0.16);
 }
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+}
+
+.dark .hero-grid {
+  background-image:
+    linear-gradient(rgba(248, 250, 252, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(248, 250, 252, 0.06) 1px, transparent 1px);
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float-y {
+  animation: float-y 5.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+

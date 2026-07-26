@@ -1,14 +1,14 @@
 export const profile = {
   name: "Nade Ali Hasham",
-  displayName: "NAD-E-ALI HASHAM",
+  displayName: "NADE ALI HASHAM",
   title: "Full-Stack Developer",
   headline: "Full-Stack Developer | ASP.NET Core | React.js | Next.js | TypeScript",
   location: "Lahore, Pakistan",
   phone: "+92 309 6941964",
   email: "syednadealihashamshah@gmail.com",
-  linkedin: "https://linkedin.com/in/syed-nade-ali-hasham-798297280",
+  linkedin: "https://www.linkedin.com/in/syed-nade-ali-hasham-798297280/",
   github: "https://github.com/Nadeali-Hasham",
-  profileImage: "/images/profile-placeholder.jpg",
+  profileImage: "/images/nade-ali-hasham.jpg",
   summary:
     "Full-stack developer with nearly three years of experience contributing to client and office-based web applications. Skilled in ASP.NET Core, React.js, Next.js, TypeScript, and SQL Server, with hands-on experience building REST APIs, relational database solutions, JWT authentication, role-based authorization, and responsive user interfaces.",
   story: [
@@ -70,21 +70,21 @@ export const projects = [
   {
     title: "AlfShip",
     category: "E-Commerce",
-    image: "/images/project-1.jpg",
+    image: "/images/alfship-preview.jpg",
     description:
-      "Responsive e-commerce platform with product catalog, authentication, cart, admin workflows, payment API integration, and performance improvements.",
-    tech: ["React.js", "TypeScript", "Tailwind CSS", "ASP.NET Core"],
-    live: "https://alfship.com",
+      "Responsive e-commerce shipping platform with carrier integrations, order fulfillment workflows, discounted postage, and tracking updates.",
+    tech: ["React.js", "TypeScript", "Tailwind CSS", "MERN"],
+    live: "https://alfshipping.vercel.app/",
     code: "https://github.com/Nadeali-Hasham/alf-shipping-website"
   },
   {
     title: "Chemical & Incident Management Dashboard",
     category: "Dashboard",
-    image: "/images/project-2.jpg",
+    image: "/images/beaty-dashboard-preview.jpg",
     description:
       "Chemical inventory and incident-reporting workflows with CRUD operations, role-based access, relational database design, and Chart.js visualizations.",
     tech: ["ASP.NET Core", "React.js", "SQL Server", "Chart.js"],
-    live: "https://bqehs-frontend-c1.vercel.app",
+    live: "https://portal.beatybqehs.com/dashboard",
     code: "https://github.com/Nadeali-Hasham/Dashboard"
   },
   {
@@ -139,4 +139,4 @@ export const testimonials = [
   }
 ];
 
-export const filters = ["All", "React.js", "ASP.NET Core", "SQL Server", "E-Commerce", "Dashboard", "MVC"];
+export const filters = ["All", "React.js", "ASP.NET Core", "SQL Server", "MERN", "E-Commerce", "Dashboard", "MVC"];
