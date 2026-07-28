@@ -155,29 +155,28 @@ export default function Home() {
             </MotionDiv>
           </div>
           <MotionDiv
-            initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, type: "spring", stiffness: 120 }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             className="relative mx-auto w-full max-w-md"
           >
-            <div className="absolute -inset-8 rounded-full bg-gradient-to-br from-mint/30 via-signal/20 to-brass/20 blur-3xl" />
-            <div className="animate-spin-slow pointer-events-none absolute -inset-3 rounded-[2rem] border border-dashed border-mint/40 dark:border-mint/30" />
-            <div className="animate-float-y group relative overflow-hidden rounded-2xl border border-white/50 bg-white/75 p-4 shadow-soft backdrop-blur-xl transition duration-500 hover:-translate-y-1 dark:border-white/10 dark:bg-white/10">
+            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-mint/20 via-transparent to-signal/15 blur-2xl" />
+            <div className="group relative overflow-hidden rounded-2xl border border-white/20 bg-ink/40 p-2 shadow-soft backdrop-blur-sm dark:border-white/10">
               <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
                 <Image
                   src={profile.profileImage}
                   alt="Nade Ali Hasham"
                   fill
                   priority
-                  className="object-cover object-top transition duration-700 group-hover:scale-105"
+                  className="object-cover object-center transition duration-700 group-hover:scale-[1.03]"
                   sizes="(min-width: 1024px) 420px, 90vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5">
                   <p className="text-sm font-bold uppercase tracking-[0.22em] text-mint">
                     {profile.title}
                   </p>
-                  <p className="mt-2 text-2xl font-black text-white">{profile.location}</p>
+                  <p className="mt-1 text-lg font-semibold text-white/90">{profile.location}</p>
                 </div>
               </div>
             </div>

@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     siteName: "Nade Ali Hasham Portfolio",
     images: [
       {
-        url: "/images/nade-ali-hasham.jpg",
-        width: 720,
-        height: 900,
+        url: "/images/Nade-Ali_Dp.png",
+        width: 1254,
+        height: 1254,
         alt: "Nade Ali Hasham"
       }
     ],
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
     description:
       "Full-stack developer portfolio focused on ASP.NET Core, React, Next.js, TypeScript, and SQL Server.",
-    images: ["/images/nade-ali-hasham.jpg"]
+    images: ["/images/Nade-Ali_Dp.png"]
   },
   icons: {
     icon: [{ url: "/icon.png", type: "image/png" }],

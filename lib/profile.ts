@@ -13,7 +13,7 @@ export const profile = {
   fiverr: "https://www.fiverr.com/syed_nade_ali",
   fiverrActive: true,
   resume: "/resume/nade-ali-hasham-resume.pdf",
-  profileImage: "/images/nade-ali-hasham.jpg",
+  profileImage: "/images/Nade-Ali_Dp.png",
   summary:
     "Full-stack developer with nearly three years of experience contributing to client and office-based web applications. Skilled in ASP.NET Core, React.js, Next.js, TypeScript, and SQL Server, with hands-on experience building REST APIs, relational database solutions, JWT authentication, role-based authorization, and responsive user interfaces.",
   story: [
