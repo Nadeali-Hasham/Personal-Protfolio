@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
+import { Footer } from "@/components/Footer";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { HomeHashScroll } from "@/components/HomeHashScroll";
 import { MotionDiv } from "@/components/Motion";
@@ -412,39 +413,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <footer className="relative overflow-hidden border-t border-black/10 bg-ink/90 py-8 text-white backdrop-blur-sm dark:border-white/10 dark:bg-ink/80">
-        <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4 px-4 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>Copyright {new Date().getFullYear()} Nade Ali Hasham. All rights reserved.</p>
-          <div className="flex flex-wrap gap-5">
-            <a href="#about" className="hover:text-mint">
-              About
-            </a>
-            <a href="#work" className="hover:text-mint">
-              Work
-            </a>
-            <a href="#contact" className="hover:text-mint">
-              Contact
-            </a>
-            <a href={profile.github} target="_blank" rel="noreferrer" className="hover:text-mint">
-              GitHub
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="hover:text-mint">
-              LinkedIn
-            </a>
-            <a href={profile.fiverr} target="_blank" rel="noreferrer" className="hover:text-mint">
-              Fiverr
-            </a>
-            <a
-              href={`https://wa.me/${profile.whatsapp.replaceAll(/[^\d]/g, "")}`}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-mint"
-            >
-              WhatsApp
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       </div>
     </main>
   );

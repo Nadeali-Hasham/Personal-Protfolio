@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { SiteBackground } from "@/components/SiteBackground";
 import { moreProjectNames, profile } from "@/lib/profile";
@@ -71,6 +72,7 @@ export default function ProjectsPage() {
             </a>
           </div>
         </section>
+        <Footer />
       </div>
     </main>
   );

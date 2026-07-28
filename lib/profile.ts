@@ -105,7 +105,7 @@ export const projects = [
   {
     title: "FYP — OpenAI Chat Platform",
     category: "AI / FYP",
-    image: "",
+    image: "/images/fyp-openai-chat-preview.jpg",
     description:
       "ChatGPT-style OpenAI assistant that supports conversational AI and real-time data retrieval for live, context-aware answers.",
     tech: ["OpenAI", "React.js", "Node.js", "Real-time Data"],
@@ -115,7 +115,7 @@ export const projects = [
   {
     title: "EBookStore",
     category: "MVC",
-    image: "",
+    image: "/images/ebookstore-preview.jpg",
     description:
       "Inventory and book management system with stored procedures, filtering, sorting, reporting, and PDF export features.",
     tech: ["ASP.NET Core MVC", "EF Core", "SQL Server"],

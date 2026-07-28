@@ -1,6 +1,6 @@
 # Nade Ali Hasham Portfolio
 
-Professional portfolio built with Next.js App Router, TypeScript, Tailwind CSS, Framer Motion, React Three Fiber, and a server-side contact API.
+Professional portfolio built with Next.js App Router, TypeScript, Tailwind CSS, Framer Motion, and a server-side contact API.
 
 ## Run Locally
 
@@ -29,11 +29,11 @@ Sending order:
 
 The first contact submission may send an activation email to your inbox. Confirm it once, then future messages arrive normally.
 
-### Gmail SMTP (optional, more reliable)
+### Gmail SMTP (recommended for production)
 
 1. Enable 2FA on Gmail
 2. Create an [App Password](https://myaccount.google.com/apppasswords)
-3. Set in `.env.local`:
+3. Set in `.env.local` (and in Vercel Environment Variables):
 
 ```bash
 SMTP_HOST=smtp.gmail.com
@@ -45,11 +45,15 @@ SMTP_FROM="Nade Portfolio <syednadealihashamshah@gmail.com>"
 
 ## Vercel Deployment
 
-1. Push the project to a repository
-2. Import the repo in Vercel
-3. Add the environment variables from `.env.example`
-4. Deploy
+1. Push the project to GitHub
+2. Import the repo in [Vercel](https://vercel.com)
+3. Add environment variables from `.env.example`
+4. Deploy — `VERCEL_URL` is used automatically for social previews
+5. Optional: set `NEXT_PUBLIC_SITE_URL` if you add a custom domain later
 
-## Notes
+## Build
 
-The 3D scenes use React Three Fiber because it is production-friendly inside Next.js.
+```bash
+npm run build
+npm start
+```

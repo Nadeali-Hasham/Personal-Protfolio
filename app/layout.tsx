@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { getSiteUrl } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
@@ -22,12 +24,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Nade Ali Hasham" }],
   creator: "Nade Ali Hasham",
-  metadataBase: new URL("https://nade-portfolio.vercel.app"),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: "Nade Ali Hasham | Full-Stack Developer Portfolio",
     description:
       "Modern full-stack portfolio showcasing ASP.NET Core, React, Next.js, TypeScript, SQL Server, and production web projects.",
-    url: "https://nade-portfolio.vercel.app",
+    url: siteUrl,
     siteName: "Nade Ali Hasham Portfolio",
     images: [
       {
