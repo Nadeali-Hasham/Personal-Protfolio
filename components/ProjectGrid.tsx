@@ -1,6 +1,7 @@
 "use client";
 
-import { ExternalLink, Github } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { motion } from "framer-motion";
 import { filters, projects } from "@/lib/profile";
 import { useMemo, useState } from "react";
@@ -12,7 +13,9 @@ export function ProjectGrid() {
   const visible = useMemo(() => {
     if (active === "All") return projects;
     return projects.filter(
-      (project) => project.category === active || project.tech.includes(active)
+      (project) =>
+        project.category === active ||
+        project.tech.some((t) => t.includes(active) || active.includes(t))
     );
   }, [active]);
 
@@ -47,14 +50,19 @@ export function ProjectGrid() {
             className="group relative overflow-hidden rounded-xl border border-black/10 bg-white/90 shadow-sm backdrop-blur transition hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/10"
           >
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-200 dark:bg-slate-800">
-              {/* Native img avoids Next image optimizer/cache issues */}
-              <img
-                src={project.image}
-                alt={`${project.title} project preview`}
-                className="absolute inset-0 h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={`${project.title} project preview`}
+                  className="absolute inset-0 h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-signal/20 via-ink/80 to-mint/20">
+                  <p className="px-4 text-center text-lg font-black text-white">{project.title}</p>
+                </div>
+              )}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
               <div className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/35 px-3 py-1 text-xs font-bold text-white backdrop-blur">
                 {project.category}
@@ -90,19 +98,31 @@ export function ProjectGrid() {
                     Live
                   </a>
                 ) : null}
-                <a
-                  href={project.code}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm font-bold text-ink transition hover:-translate-y-0.5 dark:border-white/10 dark:text-white"
-                >
-                  <Github size={16} />
-                  Code
-                </a>
+                {project.code ? (
+                  <a
+                    href={project.code}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm font-bold text-ink transition hover:-translate-y-0.5 dark:border-white/10 dark:text-white"
+                  >
+                    <Github size={16} />
+                    Code
+                  </a>
+                ) : null}
               </div>
             </div>
           </motion.article>
         ))}
+      </div>
+
+      <div className="mt-10 flex justify-center">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/90 px-6 py-3 text-sm font-black text-ink shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft dark:border-white/10 dark:bg-white/10 dark:text-white"
+        >
+          Show More Projects
+          <ArrowRight size={17} />
+        </Link>
       </div>
     </div>
   );

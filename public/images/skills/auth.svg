@@ -1,0 +1,7 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none'>
+  <rect width='200' height='200' rx='24' fill='#0f172a'/>
+  <rect x='70' y='95' width='60' height='48' rx='10' fill='#2563eb'/>
+  <path d='M82 95v-18a18 18 0 1 1 36 0v18' stroke='#14b8a6' stroke-width='7' stroke-linecap='round'/>
+  <circle cx='100' cy='118' r='6' fill='#e2e8f0'/>
+  <text x='100' y='185' text-anchor='middle' fill='#e2e8f0' font-family='Arial' font-size='14' font-weight='700'>AUTH</text>
+</svg>

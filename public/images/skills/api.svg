@@ -1,0 +1,9 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none'>
+  <rect width='200' height='200' rx='24' fill='#0f172a'/>
+  <circle cx='50' cy='100' r='18' fill='#2563eb'/>
+  <circle cx='150' cy='60' r='14' fill='#14b8a6'/>
+  <circle cx='150' cy='140' r='14' fill='#14b8a6'/>
+  <path d='M68 100h64M150 74v52' stroke='#94a3b8' stroke-width='4'/>
+  <path d='M132 100l18-40M132 100l18 40' stroke='#64748b' stroke-width='4'/>
+  <text x='100' y='185' text-anchor='middle' fill='#e2e8f0' font-family='Arial' font-size='14' font-weight='700'>API</text>
+</svg>

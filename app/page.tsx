@@ -4,11 +4,13 @@ import {
   BriefcaseBusiness,
   Code2,
   Database,
+  Download,
   Github,
   Layers3,
   Linkedin,
   Mail,
   MapPin,
+  MessageCircle,
   Phone,
   ShoppingBag,
   Sparkles
@@ -16,6 +18,7 @@ import {
 import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { HomeHashScroll } from "@/components/HomeHashScroll";
 import { MotionDiv } from "@/components/Motion";
 import { Nav } from "@/components/Nav";
 import { ProjectGrid } from "@/components/ProjectGrid";
@@ -29,9 +32,10 @@ export default function Home() {
   const serviceIcons = [Layers3, Database, Code2, ShoppingBag];
 
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative overflow-x-hidden">
       <SiteBackground />
       <div className="relative z-10">
+      <HomeHashScroll />
       <Nav />
       <section
         id="home"
@@ -45,10 +49,26 @@ export default function Home() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/78 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/10 dark:text-slate-200"
+              className="mb-6 flex flex-wrap gap-3"
             >
-              <Sparkles size={16} className="text-brass dark:text-mint" />
-              Lahore based full-stack developer
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/78 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/10 dark:text-slate-200">
+                <Sparkles size={16} className="text-brass dark:text-mint" />
+                Lahore based full-stack developer
+              </span>
+              {profile.fiverrActive ? (
+                <a
+                  href={profile.fiverr}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-bold text-emerald-700 shadow-sm backdrop-blur dark:text-emerald-300"
+                >
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  </span>
+                  Fiverr 24/7 Active
+                </a>
+              ) : null}
             </MotionDiv>
             <h1 className="max-w-4xl text-5xl font-black leading-tight text-ink dark:text-white sm:text-6xl lg:text-7xl">
               <TypingName text={profile.displayName} />
@@ -80,6 +100,15 @@ export default function Home() {
                 <ArrowDown size={17} className="animate-bounce" />
               </a>
               <a
+                href={profile.resume}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-3 text-sm font-black text-white transition hover:-translate-y-1 dark:bg-mint dark:text-ink"
+              >
+                <Download size={17} />
+                Download Resume
+              </a>
+              <a
                 href="#contact"
                 className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-5 py-3 text-sm font-black text-ink transition hover:-translate-y-1 dark:border-white/10 dark:bg-white/10 dark:text-white"
               >
@@ -103,6 +132,24 @@ export default function Home() {
               >
                 <Linkedin size={17} />
                 LinkedIn
+              </a>
+              <a
+                href={profile.fiverr}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-5 py-3 text-sm font-black text-ink transition hover:-translate-y-1 dark:border-white/10 dark:bg-white/10 dark:text-white"
+              >
+                <ShoppingBag size={17} />
+                Fiverr
+              </a>
+              <a
+                href={`https://wa.me/${profile.whatsapp.replaceAll(/[^\d]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-3 text-sm font-black text-emerald-700 transition hover:-translate-y-1 dark:text-emerald-300"
+              >
+                <MessageCircle size={17} />
+                WhatsApp
               </a>
             </MotionDiv>
           </div>
@@ -165,16 +212,28 @@ export default function Home() {
             </div>
           </div>
           <div className="rounded-lg border border-black/10 bg-white/90 p-5 shadow-soft backdrop-blur dark:border-white/10 dark:bg-white/10">
-            <div className="mb-6 grid grid-cols-3 gap-3">
-              {["API", "SQL", "UI", "AUTH", "MVC", "AI"].map((item) => (
-                <div
-                  key={item}
-                  className="grid aspect-square place-items-center rounded-lg border border-black/10 bg-slate-50 text-sm font-black text-signal shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-mint"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+              <div className="mb-6 grid grid-cols-3 gap-3">
+                {[
+                  { label: "API", src: "/images/skills/api.svg" },
+                  { label: "SQL", src: "/images/skills/sql.svg" },
+                  { label: "UI", src: "/images/skills/ui.svg" },
+                  { label: "AUTH", src: "/images/skills/auth.svg" },
+                  { label: "MVC", src: "/images/skills/mvc.svg" },
+                  { label: "AI", src: "/images/skills/ai.svg" }
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="group relative aspect-square overflow-hidden rounded-lg border border-black/10 shadow-sm transition hover:-translate-y-0.5 dark:border-white/10"
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.label}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
             <div className="mb-5 flex items-center gap-3">
               <BriefcaseBusiness className="text-signal dark:text-mint" />
               <h3 className="text-xl font-black text-ink dark:text-white">Technical Strength</h3>
@@ -289,6 +348,15 @@ export default function Home() {
             </p>
             <div className="mt-8 grid gap-4">
               <a
+                href={profile.resume}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
+              >
+                <Download size={18} />
+                Download Resume (PDF)
+              </a>
+              <a
                 href={`mailto:${profile.email}`}
                 className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
               >
@@ -303,13 +371,22 @@ export default function Home() {
                 {profile.phone}
               </a>
               <a
+                href={`https://wa.me/${profile.whatsapp.replaceAll(/[^\d]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
+              >
+                <MessageCircle size={18} />
+                WhatsApp Business {profile.whatsapp}
+              </a>
+              <a
                 href={profile.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
               >
                 <Linkedin size={18} />
-                linkedin.com/in/syed-nade-ali-hasham-798297280
+                LinkedIn
               </a>
               <a
                 href={profile.github}
@@ -318,7 +395,16 @@ export default function Home() {
                 className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
               >
                 <Github size={18} />
-                github.com/Nadeali-Hasham
+                GitHub
+              </a>
+              <a
+                href={profile.fiverr}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 text-sm font-bold text-ink transition hover:text-signal dark:text-white dark:hover:text-mint"
+              >
+                <ShoppingBag size={18} />
+                Fiverr — syed_nade_ali
               </a>
             </div>
           </div>
@@ -344,6 +430,17 @@ export default function Home() {
             </a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer" className="hover:text-mint">
               LinkedIn
+            </a>
+            <a href={profile.fiverr} target="_blank" rel="noreferrer" className="hover:text-mint">
+              Fiverr
+            </a>
+            <a
+              href={`https://wa.me/${profile.whatsapp.replaceAll(/[^\d]/g, "")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-mint"
+            >
+              WhatsApp
             </a>
           </div>
         </div>

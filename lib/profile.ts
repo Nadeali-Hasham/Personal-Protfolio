@@ -5,9 +5,14 @@ export const profile = {
   headline: "Full-Stack Developer | ASP.NET Core | React.js | Next.js | TypeScript",
   location: "Lahore, Pakistan",
   phone: "+92 309 6941964",
+  whatsapp: "+92 318 4061010",
   email: "syednadealihashamshah@gmail.com",
   linkedin: "https://www.linkedin.com/in/syed-nade-ali-hasham-798297280/",
   github: "https://github.com/Nadeali-Hasham",
+  githubRepos: "https://github.com/Nadeali-Hasham?tab=repositories",
+  fiverr: "https://www.fiverr.com/syed_nade_ali",
+  fiverrActive: true,
+  resume: "/resume/nade-ali-hasham-resume.pdf",
   profileImage: "/images/nade-ali-hasham.jpg",
   summary:
     "Full-stack developer with nearly three years of experience contributing to client and office-based web applications. Skilled in ASP.NET Core, React.js, Next.js, TypeScript, and SQL Server, with hands-on experience building REST APIs, relational database solutions, JWT authentication, role-based authorization, and responsive user interfaces.",
@@ -75,7 +80,7 @@ export const projects = [
       "Responsive e-commerce shipping platform with carrier integrations, order fulfillment workflows, discounted postage, and tracking updates.",
     tech: ["React.js", "TypeScript", "Tailwind CSS", "MERN"],
     live: "https://alfshipping.vercel.app/",
-    code: "https://github.com/Nadeali-Hasham/alf-shipping-website"
+    code: ""
   },
   {
     title: "Chemical & Incident Management Dashboard",
@@ -85,18 +90,54 @@ export const projects = [
       "Chemical inventory and incident-reporting workflows with CRUD operations, role-based access, relational database design, and Chart.js visualizations.",
     tech: ["ASP.NET Core", "React.js", "SQL Server", "Chart.js"],
     live: "https://portal.beatybqehs.com/dashboard",
-    code: "https://github.com/Nadeali-Hasham/Dashboard"
+    code: ""
+  },
+  {
+    title: "AI Resume Builder",
+    category: "AI App",
+    image: "/images/ai-resume-builder-preview.jpg",
+    description:
+      "AI-powered resume builder that helps users generate polished, role-focused resumes with modern templates and guided content flows.",
+    tech: ["React.js", "Vite", "Tailwind CSS", "Strapi", "Clerk", "Google Gemini", "Docker"],
+    live: "",
+    code: "https://github.com/Nadeali-Hasham/AI-resume-builder-app"
+  },
+  {
+    title: "FYP — OpenAI Chat Platform",
+    category: "AI / FYP",
+    image: "",
+    description:
+      "ChatGPT-style OpenAI assistant that supports conversational AI and real-time data retrieval for live, context-aware answers.",
+    tech: ["OpenAI", "React.js", "Node.js", "Real-time Data"],
+    live: "",
+    code: ""
   },
   {
     title: "EBookStore",
     category: "MVC",
-    image: "/images/project-3.jpg",
+    image: "",
     description:
       "Inventory and book management system with stored procedures, filtering, sorting, reporting, and PDF export features.",
     tech: ["ASP.NET Core MVC", "EF Core", "SQL Server"],
     live: "",
-    code: "https://github.com/Nadeali-Hasham/EBookStore"
+    code: ""
   }
+];
+
+/** Public repos only — private/404 repos removed so every link opens */
+export const moreProjectNames = [
+  "Personal-Protfolio",
+  "AI-resume-builder-app",
+  "daily-advice-app",
+  "random-joke-generator",
+  "qr-code-generator",
+  "expense-management-tracker",
+  "todo-list-app",
+  "Currency-Converter",
+  "Age-Calculator",
+  "Unit-Converter",
+  "rgb-color-guesser",
+  "7random_password_generator"
 ];
 
 export const services = [
@@ -139,4 +180,15 @@ export const testimonials = [
   }
 ];
 
-export const filters = ["All", "React.js", "ASP.NET Core", "SQL Server", "MERN", "E-Commerce", "Dashboard", "MVC"];
+export const filters = [
+  "All",
+  "React.js",
+  "ASP.NET Core",
+  "SQL Server",
+  "MERN",
+  "Vite",
+  "AI",
+  "E-Commerce",
+  "Dashboard",
+  "MVC"
+];
