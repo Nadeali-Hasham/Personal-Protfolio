@@ -1,23 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
-
-type ContactPayload = {
-  name?: string;
-  email?: string;
-  subject?: string;
-  message?: string;
-  website?: string; // honeypot
-};
-
-type ContactData = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
 
 const buckets = new Map<string, { count: number; resetAt: number }>();
 const WINDOW_MS = 15 * 60 * 1000;
@@ -28,23 +12,15 @@ function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function validate(payload: ContactPayload) {
-  // Honeypot: bots fill hidden fields; humans leave it empty.
-  if (clean(payload.website)) {
-    return { ok: true as const, spam: true as const };
+function rateLimit(key: string) {
+  const now = Date.now();
+  const existing = buckets.get(key);
+  if (!existing || existing.resetAt < now) {
+    buckets.set(key, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
   }
-
-  const name = clean(payload.name);
-  const email = clean(payload.email).toLowerCase();
-  const subject = clean(payload.subject);
-  const message = clean(payload.message);
-
-  if (name.length < 2 || name.length > 80) return { error: "Name must be 2-80 characters." };
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Enter a valid email address." };
-  if (subject.length < 4 || subject.length > 120) return { error: "Subject must be 4-120 characters." };
-  if (message.length < 20 || message.length > 3000) return { error: "Message must be 20-3000 characters." };
-
-  return { data: { name, email, subject, message } };
+  existing.count += 1;
+  return existing.count > MAX_REQUESTS;
 }
 
 function escapeHtml(value: string) {
@@ -56,138 +32,6 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
-function rateLimit(key: string) {
-  const now = Date.now();
-  const existing = buckets.get(key);
-
-  if (!existing || existing.resetAt < now) {
-    buckets.set(key, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-
-  existing.count += 1;
-  return existing.count > MAX_REQUESTS;
-}
-
-function emailBodies(data: ContactData) {
-  const text = [
-    `Name: ${data.name}`,
-    `Email: ${data.email}`,
-    `Subject: ${data.subject}`,
-    "",
-    data.message
-  ].join("\n");
-
-  const html = `
-    <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
-      <h2>New portfolio inquiry</h2>
-      <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
-      <p><strong>Subject:</strong> ${escapeHtml(data.subject)}</p>
-      <p style="white-space:pre-line">${escapeHtml(data.message)}</p>
-    </div>
-  `;
-
-  return { text, html };
-}
-
-async function sendViaSmtp(data: ContactData, to: string) {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } = process.env;
-
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    return false;
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT ?? 587),
-    secure: Number(SMTP_PORT) === 465,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS
-    }
-  });
-
-  const { text, html } = emailBodies(data);
-
-  await transporter.sendMail({
-    from: SMTP_FROM ?? SMTP_USER,
-    to,
-    replyTo: data.email,
-    subject: `Portfolio contact: ${data.subject}`,
-    text,
-    html
-  });
-
-  return true;
-}
-
-async function sendViaWeb3Forms(data: ContactData, to: string) {
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
-  if (!accessKey) return false;
-
-  const response = await fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      access_key: accessKey,
-      subject: `Portfolio contact: ${data.subject}`,
-      from_name: data.name,
-      email: data.email,
-      name: data.name,
-      message: data.message,
-      to
-    })
-  });
-
-  const result = (await response.json()) as { success?: boolean; message?: string };
-  if (!response.ok || !result.success) {
-    throw new Error(result.message ?? "Web3Forms could not send the message.");
-  }
-
-  return true;
-}
-
-async function sendViaFormSubmit(data: ContactData, to: string) {
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
-      message: data.message,
-      _subject: `Portfolio contact: ${data.subject}`,
-      _replyto: data.email,
-      _template: "table",
-      _captcha: "false"
-    })
-  });
-
-  const result = (await response.json()) as { success?: string | boolean; message?: string };
-
-  if (!response.ok) {
-    throw new Error(result.message ?? "FormSubmit could not send the message.");
-  }
-
-  // First-time activation often returns a confirmation notice.
-  if (typeof result.message === "string" && /confirm|activate|check your email/i.test(result.message)) {
-    return {
-      pending: true as const,
-      message:
-        "Almost ready: check your inbox and confirm FormSubmit once. After that, contact emails will arrive normally."
-    };
-  }
-
-  return { pending: false as const };
-}
-
 export async function POST(request: Request) {
   const headerList = headers();
   const ip =
@@ -196,55 +40,145 @@ export async function POST(request: Request) {
     "unknown";
 
   if (rateLimit(ip)) {
-    return NextResponse.json({ message: "Too many messages. Try again after 15 minutes." }, { status: 429 });
-  }
-
-  let payload: ContactPayload;
-  try {
-    payload = (await request.json()) as ContactPayload;
-  } catch {
-    return NextResponse.json({ message: "Invalid request body." }, { status: 400 });
-  }
-
-  const result = validate(payload);
-  if ("error" in result) {
-    return NextResponse.json({ message: result.error }, { status: 400 });
-  }
-
-  // Silent success for honeypot spam.
-  if ("spam" in result && result.spam) {
-    return NextResponse.json({ message: "Message sent. I will reply soon." });
-  }
-
-  if (!("data" in result) || !result.data) {
-    return NextResponse.json({ message: "Invalid request." }, { status: 400 });
-  }
-
-  const to = process.env.CONTACT_TO_EMAIL ?? DEFAULT_TO;
-
-  try {
-    if (await sendViaSmtp(result.data, to)) {
-      return NextResponse.json({ message: "Message sent. I will reply soon." });
-    }
-
-    if (await sendViaWeb3Forms(result.data, to)) {
-      return NextResponse.json({ message: "Message sent. I will reply soon." });
-    }
-
-    const formSubmit = await sendViaFormSubmit(result.data, to);
-    if (formSubmit.pending) {
-      return NextResponse.json({ message: formSubmit.message }, { status: 202 });
-    }
-
-    return NextResponse.json({ message: "Message sent. I will reply soon." });
-  } catch (error) {
-    console.error("Contact form send failed:", error);
     return NextResponse.json(
-      {
-        message:
-          "Message could not be delivered right now. Please email me directly at syednadealihashamshah@gmail.com."
-      },
-      { status: 502 }
+      { error: "Too many messages. Try again after 15 minutes." },
+      { status: 429 }
+    );
+  }
+
+  try {
+    const body = (await request.json()) as {
+      name?: string;
+      email?: string;
+      subject?: string;
+      message?: string;
+      website?: string;
+    };
+
+    // Honeypot
+    if (clean(body.website)) {
+      return NextResponse.json({ success: true });
+    }
+
+    const name = clean(body.name);
+    const email = clean(body.email).toLowerCase();
+    const subject = clean(body.subject);
+    const message = clean(body.message);
+
+    if (!name || name.length < 2) {
+      return NextResponse.json({ error: "Please enter your name." }, { status: 400 });
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
+    }
+    if (!subject || subject.length < 4) {
+      return NextResponse.json({ error: "Subject must be at least 4 characters." }, { status: 400 });
+    }
+    if (!message || message.length < 20) {
+      return NextResponse.json({ error: "Message must be at least 20 characters." }, { status: 400 });
+    }
+
+    const resendKey = process.env.RESEND_API_KEY;
+    const toEmail = process.env.CONTACT_TO_EMAIL ?? DEFAULT_TO;
+    const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+    const fromFormatted = fromEmail.includes("<")
+      ? fromEmail
+      : `Portfolio <${fromEmail}>`;
+
+    if (resendKey) {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: fromFormatted,
+          to: [toEmail],
+          reply_to: email,
+          subject: `[Portfolio] ${subject}`,
+          html: `
+            <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0">
+              <div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:28px 32px">
+                <h1 style="margin:0;font-size:20px;font-weight:800;color:#ffffff;letter-spacing:0.5px">New Portfolio Message</h1>
+                <p style="margin:6px 0 0;font-size:13px;color:#94a3b8">Someone reached out through your portfolio</p>
+              </div>
+              <div style="padding:28px 32px">
+                <table style="width:100%;border-collapse:collapse;font-size:15px;color:#334155">
+                  <tr>
+                    <td style="padding:10px 0;color:#64748b;width:80px;vertical-align:top">From</td>
+                    <td style="padding:10px 0;font-weight:600">${escapeHtml(name)}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0;color:#64748b;vertical-align:top">Email</td>
+                    <td style="padding:10px 0"><a href="mailto:${escapeHtml(email)}" style="color:#3b82f6;text-decoration:none;font-weight:500">${escapeHtml(email)}</a></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 0;color:#64748b;vertical-align:top">Subject</td>
+                    <td style="padding:10px 0;font-weight:600">${escapeHtml(subject)}</td>
+                  </tr>
+                </table>
+                <div style="margin-top:20px;padding:20px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0">
+                  <p style="margin:0 0 8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8">Message</p>
+                  <p style="margin:0;font-size:15px;line-height:1.7;color:#1e293b;white-space:pre-line">${escapeHtml(message)}</p>
+                </div>
+                <div style="margin-top:24px;padding-top:20px;border-top:1px solid #e2e8f0;text-align:center">
+                  <a href="mailto:${escapeHtml(email)}" style="display:inline-block;padding:10px 28px;background:#0f172a;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;border-radius:8px">Reply to ${escapeHtml(name)}</a>
+                </div>
+              </div>
+              <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:center">
+                <p style="margin:0;font-size:12px;color:#94a3b8">Nade Ali Hasham — Portfolio Contact Form</p>
+              </div>
+            </div>
+          `,
+          text: `From: ${name} <${email}>\nSubject: ${subject}\n\n${message}`,
+        }),
+      });
+
+      const data = (await res.json().catch(() => ({}))) as {
+        id?: string;
+        message?: string;
+        statusCode?: number;
+      };
+
+      if (!res.ok) {
+        console.error("Resend API error:", data);
+        return NextResponse.json(
+          {
+            error:
+              typeof data?.message === "string"
+                ? data.message
+                : "Failed to send message. Please try again.",
+          },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: "Message sent. I will reply soon.",
+        id: data?.id,
+      });
+    }
+
+    // No Resend key — mailto fallback
+    const mailtoSubject = encodeURIComponent(`[Portfolio] ${subject}`);
+    const mailtoBody = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\n${message}`
+    );
+    const mailto = `mailto:${toEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+    return NextResponse.json({
+      success: true,
+      method: "mailto",
+      mailto,
+      message: "Message sent. I will reply soon.",
+    });
+  } catch (error) {
+    console.error("Contact API error:", error);
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 }
     );
   }
 }

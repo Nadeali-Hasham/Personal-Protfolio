@@ -21,9 +21,32 @@ CONTACT_TO_EMAIL=syednadealihashamshah@gmail.com
 
 Sending order:
 
-1. **SMTP** (if `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` are set) — best for production
-2. **Web3Forms** (if `WEB3FORMS_ACCESS_KEY` is set)
-3. **FormSubmit.co** fallback — works with only `CONTACT_TO_EMAIL`
+1. **Resend** (if `RESEND_API_KEY` is set) — recommended for Vercel
+2. **SMTP** (if `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` are set)
+3. **Web3Forms** (if `WEB3FORMS_ACCESS_KEY` is set)
+4. **FormSubmit.co** fallback — works with only `CONTACT_TO_EMAIL`
+
+### Resend (recommended)
+
+1. Create a free account at [resend.com](https://resend.com)
+2. Go to **API Keys** → create a key
+3. Add to `.env.local` and Vercel Environment Variables:
+
+```bash
+RESEND_API_KEY=re_xxxxxxxxxxxx
+CONTACT_TO_EMAIL=syednadealihashamshah@gmail.com
+RESEND_FROM_EMAIL=Portfolio Contact <onboarding@resend.dev>
+```
+
+**Testing:** `onboarding@resend.dev` only delivers to the email you used to sign up on Resend. Check **Spam** and **Promotions** in Gmail.
+
+**Check sent emails:** open `/admin/messages` and enter your `ADMIN_SECRET`.
+
+**Production:** In Resend → **Domains**, add and verify your domain, then set:
+
+```bash
+RESEND_FROM_EMAIL=Nade Portfolio <contact@yourdomain.com>
+```
 
 ### First-time FormSubmit note
 

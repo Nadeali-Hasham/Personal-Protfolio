@@ -24,15 +24,24 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const data = (await response.json()) as { message?: string };
+      const data = (await response.json()) as {
+        success?: boolean;
+        error?: string;
+        message?: string;
+        mailto?: string;
+      };
 
-      if (!response.ok && response.status !== 202) {
-        throw new Error(data.message ?? "Message could not be sent.");
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? data.message ?? "Message could not be sent.");
+      }
+
+      if (data.mailto) {
+        window.open(data.mailto, "_blank");
       }
 
       setStatus("sent");
       setMessage(data.message ?? "Message sent successfully.");
-      if (response.ok) form.reset();
+      form.reset();
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Something went wrong.");
